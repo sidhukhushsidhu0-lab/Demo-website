@@ -1,0 +1,372 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --font-display: "Playfair Display", "Instrument Serif", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Caveat", cursive;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-brand-dark: #083e35;
+  --color-brand-teal: #00a884;
+  --color-brand-cream: #faf8f4;
+}
+
+:root {
+  --radius: 1rem;
+  --font-display: "Playfair Display", "Instrument Serif", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Caveat", cursive;
+  --background: #faf8f4;
+  --foreground: #1c2e28;
+  --card: #ffffff;
+  --card-foreground: #1c2e28;
+  --popover: #ffffff;
+  --popover-foreground: #1c2e28;
+  --primary: #083e35;
+  --primary-foreground: #ffffff;
+  --secondary: #f0ede6;
+  --secondary-foreground: #083e35;
+  --muted: #f3efe8;
+  --muted-foreground: #5e6d66;
+  --accent: #00a884;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #e8e3d9;
+  --input: #e8e3d9;
+  --ring: #00a884;
+  --shadow-soft: 0 20px 40px -15px rgba(8, 62, 53, 0.12);
+  --shadow-card: 0 10px 30px -10px rgba(8, 62, 53, 0.08);
+}
+
+.dark {
+  --background: #0d1a16;
+  --foreground: #f0fdf9;
+  --card: #13241f;
+  --card-foreground: #f0fdf9;
+  --popover: #13241f;
+  --popover-foreground: #f0fdf9;
+  --primary: #00a884;
+  --primary-foreground: #ffffff;
+  --secondary: #1a302a;
+  --secondary-foreground: #f0fdf9;
+  --muted: #1a302a;
+  --muted-foreground: #9eb1a9;
+  --accent: #00c99f;
+  --accent-foreground: #083e35;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #233e36;
+  --input: #233e36;
+  --ring: #00a884;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 115px;
+  }
+}
+
+.font-script {
+  font-family: var(--font-script), cursive;
+}
+
+/* ==========================================================================
+   Professional Button & Navigation Animations
+   ========================================================================== */
+
+/* Shimmer Sweep Animation */
+@keyframes shineSweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.28),
+    transparent
+  );
+  transform: translateX(-150%) skewX(-20deg);
+  pointer-events: none;
+}
+
+.btn-shimmer:hover::before {
+  animation: shineSweep 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle Glowing Pulse for Primary CTAs */
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 168, 132, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 168, 132, 0);
+  }
+}
+
+.btn-glow-teal {
+  animation: glowPulse 3s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Animated Navigation Underline */
+.nav-link-anim {
+  position: relative;
+  display: inline-block;
+  transition: color 0.25s ease;
+}
+
+.nav-link-anim::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
+}
+
+.nav-link-anim:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-link-anim.active::after {
+  transform: translateX(-50%) scaleX(1);
+  background-color: #00a884;
+}
+
+/* Springy Button Press Effect */
+.btn-spring {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.btn-spring:hover {
+  transform: translateY(-2px);
+}
+
+.btn-spring:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* Smooth Icon Slide in Buttons */
+.btn-icon-slide .icon-slide {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-icon-slide:hover .icon-slide {
+  transform: translateX(4px);
+}
+
+/* Smooth Ripple Background Pulse */
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.card-hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 36px -12px rgba(8, 62, 53, 0.14);
+}
+
+/* Drawer & Modal Animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleUpSpring {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes badgePop {
+  0% {
+    transform: scale(0.6);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUpSpring 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-badge-pop {
+  animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Mint Glow & Float Effects */
+@keyframes floatSoft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-soft {
+  animation: floatSoft 4s ease-in-out infinite;
+}
+
+.feature-card-btn {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-card-btn:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 24px 48px -12px rgba(0, 135, 105, 0.16), 0 8px 16px -4px rgba(0, 0, 0, 0.04);
+}
+
+.feature-card-btn:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+/* Reservation Button Glow Pulse & Pill Animations */
+@keyframes pulseReserve {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 168, 132, 0.45), 0 4px 14px rgba(8, 62, 53, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 168, 132, 0), 0 6px 20px rgba(0, 168, 132, 0.25);
+  }
+}
+
+.btn-reserve-pulse {
+  animation: pulseReserve 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.select-spring {
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.select-spring:hover {
+  transform: translateY(-2px);
+}
+
+.select-spring:active {
+  transform: scale(0.94);
+}
+
+
